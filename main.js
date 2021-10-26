@@ -1,32 +1,59 @@
-const url = 'https://zenquotes.io/api/random';
+const url = 'https://apifrases.herokuapp.com/frases/random';
+const voiceSelect = document.getElementById('voices');
+let voices;
+let currentVoice;
 
 function apresentarFrase() {
-  // let req = fetch(url, {
-  //   mode: 'no-cors',
-  //   method: 'GET', 
-  //   async:true,  
-  //   headers: {
-  //       "Content-Type": "application/json",
-  //       "Access-Control-Allow-Origin" : "*", 
-  //       "Access-Control-Allow-Credentials" : true 
-  //   }
-  // })
-  // let dado = req.then((response) => {
-  //   return response.json()
-  // })
-     
-  // dado.then((dado) => {
-  //   dado.forEach(element => {
+  let req = fetch(url)
 
-  //     criarFrase(element)
-  //   });
-  // })
-  var frase = {
-    q: 'teste',
-    a: 'oi'
-  }
-  criarFrase(frase);
+  let dado = req.then((response) => {
+    return response.json()
+  })
+     
+  dado.then((dado) => {
+
+    criarFrase(dado)
+  })
+ 
 }
+
+function populateVoices() {
+  const availableVoices = speechSynthesis.getVoices();
+
+  voiceSelect.innerHTML = '';
+
+  availableVoices.forEach(voice => {
+      const option = document.createElement('option');
+        let optionText = `${voice.name} (${voice.lang})`;
+
+      if (voice.default) {
+          optionText += ' [default]';
+
+          if (typeof currentVoice === 'undefined') {
+              currentVoice = voice;
+              option.selected = true;
+          }
+      }
+
+      if (currentVoice === voice) {
+          option.selected = true;
+      }
+
+      option.textContent = optionText;
+      voiceSelect.appendChild(option);
+  });
+
+  voices = availableVoices;
+};
+
+populateVoices();
+speechSynthesis.onvoiceschanged = populateVoices;
+
+voiceSelect.addEventListener('change', event => {
+  const selectedIndex = event.target.selectedIndex;
+  currentVoice = voices[selectedIndex];
+});
+
 
 function criarFrase(infofrase) {
   let div = document.getElementById('frase');
@@ -34,9 +61,9 @@ function criarFrase(infofrase) {
   let frase = document.createElement('p');
   let h2 = document.createElement('h2');
 
-  h2.textContent = `- ${infofrase.a}`;
-  // frase.textContent = `"${infofrase.q}"`;
-  frase.textContent = infofrase.q;
+  h2.textContent = `- ${infofrase.autor}`;
+  
+  frase.textContent = infofrase.frase;
 
   frase.id = "textoFrase";
   
@@ -51,19 +78,15 @@ function criarFrase(infofrase) {
 function lerFrase() {
   let frase = document.getElementById('textoFrase');
   let toSay = frase.textContent.trim();
-  const availableVoices = speechSynthesis.getVoices();
-
-  // toSay = toSay.substr(toSay.indexOf("\"") + 1, toSay.lastIndexOf("\"") - 1);
 
   const utterance = new SpeechSynthesisUtterance(toSay);
 
-  utterance.voice = availableVoices[0];
+  utterance.voice = currentVoice;
   speechSynthesis.speak(utterance);
-  // frase.textContent = '';
 
   setTimeout(function() {
     apresentarFrase()
-  }, 2000)
+  }, 10000)
 }
 
 apresentarFrase()

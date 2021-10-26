@@ -21,15 +21,14 @@ section div {
     background-color: #cdb4dbb4;
 }
 
-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    padding: 10px;
-    color: #cdb4db;
-}
-
 #frase p {
     font-size: 24px;
+}
+
+select {
+    margin: 20px;
+    background-color: #cdb4dbb4;
+    padding: 15px;
+    border-radius: 10px;
+    width: 50%;
 }
