@@ -1,5 +1,6 @@
 const url = 'https://apifrases.herokuapp.com/frases/random';
 const voiceSelect = document.getElementById('voices');
+const btnFalar = document.getElementById('btn');
 let voices;
 let currentVoice;
 
@@ -84,9 +85,9 @@ function lerFrase() {
   utterance.voice = currentVoice;
   speechSynthesis.speak(utterance);
 
-  setTimeout(function() {
-    apresentarFrase()
-  }, 10000)
+  // setTimeout(function() {
+  //   apresentarFrase()
+  // }, 10000)
 }
 
-apresentarFrase()
+// apresentarFrase()

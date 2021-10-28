@@ -25,10 +25,23 @@ section div {
     font-size: 24px;
 }
 
-select {
+select, button {
     margin: 20px;
     background-color: #cdb4dbb4;
     padding: 15px;
     border-radius: 10px;
     width: 50%;
+}
+
+
+button {
+    background-color: #7400b8;
+    cursor: pointer;
+    color: #f4f4f4;
+    transition: all 0.3s;
+    border: none;
+}
+
+button:hover {
+    background-color: #560bad;
 }
