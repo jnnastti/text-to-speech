@@ -84,10 +84,5 @@ function lerFrase() {
 
   utterance.voice = currentVoice;
   speechSynthesis.speak(utterance);
-
-  // setTimeout(function() {
-  //   apresentarFrase()
-  // }, 10000)
 }
 
-// apresentarFrase()
